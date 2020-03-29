@@ -40,15 +40,13 @@ leads to the SEIRS-model:
 * R: removed, referring to those that are recovered/removed because of death or because recovery is associated with immunity
 * S: re-susceptible; indicated with a parameter $\xi$ 
 
-$$
-\begin{aligned}
+$$\begin{aligned}
 \dot{S} &= \frac{-\beta S I}{N} + \xi R \\ 
 \dot{E} &= \frac{\beta S I}{N} - \sigma E \\ 
 \dot{I} &= \sigma E - \gamma I - \mu_I I \\ 
 \dot{R} &= \gamma I - \xi R \\ dot{F} &= \mu_I I \\
-\quad\quad N = S + E + I + R 
-\end{aligned}
-$$
+\quad\quad N & S + E + I + R 
+\end{aligned}$$
 
 ## SEIRS with testing
 
