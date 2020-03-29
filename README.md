@@ -38,7 +38,7 @@ leads to the SEIRS-model:
 * E: exposed, referring to those that are infected and cannot yet infect others
 * I: infectious, referring to those that are infected and can infect others
 * R: removed, referring to those that are recovered/removed because of death or because recovery is associated with immunity
-* S: re-susceptible; indicated with a parameter $$\xi$$ 
+* S: re-susceptible; indicated with a parameter $$\Xi$$ 
 
 $$\begin{aligned}
 \dot{S} &= \frac{-\beta S I}{N} + \xi R \\
