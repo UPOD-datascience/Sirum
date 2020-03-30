@@ -11,7 +11,7 @@ To start with:
 
 Research questions:
 1. what is the required immunity
-2. ...
+2. how to include/extract the required IC-capacity in/from the model?
 
 I.e. we have the following basic components: {{intial conditions}-> {SIR-model}} <-> {Optimisation/fitting}
 
