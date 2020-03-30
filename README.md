@@ -38,9 +38,19 @@ leads to the SEIRS-model:
 * E: exposed, referring to those that are infected and cannot yet infect others
 * I: infectious, referring to those that are infected and can infect others
 * R: removed, referring to those that are recovered/removed because of death or because recovery is associated with immunity
-* S: re-susceptible; indicated with a parameter $\xi$ 
+* S: re-susceptible; indicated with a parameter $$\xi$$ 
 
-$$\begin{aligned}\dot{S} &= \frac{-\beta S I}{N} + \xi R \\ \dot{E} &= \frac{\beta S I}{N} - \sigma E \\ \dot{I} &= \sigma E - \gamma I - \mu_I I \\ \dot{R} &= \gamma I - \xi R \\ dot{F} &= \mu_I I \\ \quad\quad N = S + E + I + R 
+```math
+a^2+b^2=c^2
+```
+
+
+$$\begin{aligned}
+\dot{S} &= \frac{-\beta S I}{N} + \xi R \\
+\dot{E} &= \frac{\beta S I}{N} - \sigma E \\
+\dot{I} &= \sigma E - \gamma I - \mu_I I \\
+\dot{R} &= \gamma I - \xi R \\ dot{F} &= \mu_I I \\
+\quad\quad N = S + E + I + R
 \end{aligned}$$
 
 ## SEIRS with testing
@@ -93,6 +103,7 @@ Data sources:
 
 - [https://github.com/CSSEGISandData/COVID-19](https://github.com/CSSEGISandData/COVID-19)
 - [http://ncov.bii.virginia.edu/dashboard/](http://ncov.bii.virginia.edu/dashboard/)
+- https://github.com/fontastark/covid19nl
 - [https://datasetsearch.research.google.com/search?query=coronavirus covid-19&docid=g3oiDuHtkLygNkWHAAAAAA%3D%3D](https://datasetsearch.research.google.com/search?query=coronavirus%20covid-19&docid=g3oiDuHtkLygNkWHAAAAAA%3D%3D)
 
 Specific papers:
