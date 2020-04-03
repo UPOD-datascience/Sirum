@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import src.config as cfg
+import sirum.config as cfg
 
 class CovidDataSelection:
 
@@ -18,6 +18,8 @@ class CovidDataSelection:
         data = data.drop(['Lat','Long','Country/Region','Province/State'],axis = 1).T
         data.columns = data.loc['type']
         data = data.drop('type',axis = 0)
+        data.index = pd.to_datetime(data.index)
+        data = data.apply(lambda x:x.astype(int))
         return data
 
     def _load_cases(self):
