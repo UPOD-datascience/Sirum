@@ -11,7 +11,7 @@ To start with:
 
 Research questions:
 1. what is the required immunity
-2. ...
+2. how to include/extract the required IC-capacity in/from the model?
 
 I.e. we have the following basic components: {{intial conditions}-> {SIR-model}} <-> {Optimisation/fitting}
 
@@ -60,6 +60,7 @@ Data sources:
 - [http://ncov.bii.virginia.edu/dashboard/](http://ncov.bii.virginia.edu/dashboard/)
 - https://github.com/fontastark/covid19nl
 - [https://datasetsearch.research.google.com/search?query=coronavirus covid-19&docid=g3oiDuHtkLygNkWHAAAAAA%3D%3D](https://datasetsearch.research.google.com/search?query=coronavirus%20covid-19&docid=g3oiDuHtkLygNkWHAAAAAA%3D%3D)
+- https://databronnencovid19.nl/
 
 Specific papers:
 
