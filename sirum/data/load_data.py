@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import sirum.config as cfg
 
+
 class CovidDataSelection:
 
     def __init__(self,
