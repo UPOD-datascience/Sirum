@@ -3,8 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class SIR:
-    def __init__(self, beta, gamma, N):
-        self.beta = beta
+    def __init__(self, beta_0, gamma, N, beta_changepoints=None):
+        self.beta_0 = beta_0
+        self.beta_changepoints = beta_changepoints
         self.gamma = gamma
         self.N = N
         
@@ -18,11 +19,23 @@ class SIR:
         """
         # Initial conditions vector
         S, I, R = [Initial_val[0]], [Initial_val[1]], [Initial_val[2]]
+
+        time = np.linspace(0, days, days + 1) # A grid of time points (in days)
+        beta = np.full((days + 1,), self.beta_0)
+
+        #### varying beta
+        if self.beta_changepoints is not None:
+            for _cp in self.beta_changepoints:
+                if isinstance(_cp[1], float):
+                    beta[_cp[0]:] = _cp[1] * beta[_cp[0] - 1]
+                elif isinstance(_cp[1], object):
+                    beta[_cp[0]:] = _cp[1](time[_cp[0]:])
+
         # Simulation of differential equaiton using Numerical differentiation
         # dx/dt = (x[t] - x[t-1])/dt
         # E.g. S[t] = S[t-1] + dt *(B*S*I/N)  dt = 1 # In our simulation dt is 1-day
-        for _ in range(days):
-            term1 = (self.beta/self.N) * S[-1] * I[-1]
+        for idx, t in enumerate(time):
+            term1 = (beta[idx]/self.N) * S[-1] * I[-1]
             term2 = self.gamma * I[-1]
             S.append(S[-1] - term1)
             I.append(I[-1] + term1 - term2)
