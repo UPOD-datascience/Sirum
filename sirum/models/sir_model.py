@@ -4,6 +4,12 @@ import matplotlib.pyplot as plt
 
 class SIR:
     def __init__(self, beta_0, gamma, N, beta_changepoints=None):
+        """
+        beta_0: initial transferrability rate
+        gamma: initial recovery/fatality rate
+        N: number of days to apply ODE since day 0
+        beta_changepoints: list of tuples with (day_of_change, change_factor/change_function)
+        """        
         self.beta_0 = beta_0
         self.beta_changepoints = beta_changepoints
         self.gamma = gamma
