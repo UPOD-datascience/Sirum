@@ -12,7 +12,12 @@ class SIR:
         self.beta_0 = beta_0
         self.beta_changepoints = beta_changepoints
         self.gamma = gamma
-
+    
+    def _ODE(y, t, p):
+        ds = -p[0]*y[0]*y[1]
+        di = p[0]*y[0]*y[1] - p[1]*y[1]  
+        dr = p[1]*y[1] 
+        return [ds, di, dr]
     def solve_ODE(self, Initial_vals, days, beta_0=None, gamma=None):
         """
         This is a ODE implementation of SIR model. 
