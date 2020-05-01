@@ -13,7 +13,7 @@ class SIR:
         self.beta_changepoints = beta_changepoints
         self.gamma = gamma
     
-    def _ODE(y, t, p):
+    def _ODE(self, y, t, p):
         ds = -p[0]*y[0]*y[1]
         di = p[0]*y[0]*y[1] - p[1]*y[1]  
         dr = p[1]*y[1] 
