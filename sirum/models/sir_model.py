@@ -3,19 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class SIR:
-    def __init__(self, beta_0, gamma, N, beta_changepoints=None):
+    def __init__(self, beta_0=None, gamma=None, beta_changepoints=None):
         """
         beta_0: initial transferrability rate
         gamma: initial recovery/fatality rate
-        N: number of days to apply ODE since day 0
         beta_changepoints: list of tuples with (day_of_change, change_factor/change_function)
         """        
         self.beta_0 = beta_0
         self.beta_changepoints = beta_changepoints
         self.gamma = gamma
-        self.N = N
-        
-    def solve_ODE(self, Initial_val, days):
+
+    def solve_ODE(self, Initial_vals, days, beta_0=None, gamma=None):
         """
         This is a ODE implementation of SIR model. 
 
@@ -23,8 +21,19 @@ class SIR:
         days: is the time interval for solution based on days
         params [list of length 3]: This is the paramters of ODE SIR model, such that beta = params[0], gamma = params[2], N = params[2]
         """
+        assert days is not None, "Please enter the number of simulation days"
+        if  (beta_0 is None) and (self.beta_0 is None):
+            raise(ValueError, "A beta_0 must be set")
+        elif (beta_0 is None):
+            beta_0 = self.beta_0
+        if (gamma is None) and (self.gamma is None):
+            raise(ValueError, "A gamma must be set")
+        elif (gamma is None):
+            gamma = self.gamma
+
         # Initial conditions vector
-        S, I, R = [Initial_val[0]], [Initial_val[1]], [Initial_val[2]]
+        S, I, R = [Initial_vals[0]], [Initial_vals[1]], [Initial_vals[2]]
+        N = S[0]+I[0]+R[0]
 
         time = np.linspace(0, days, days + 1) # A grid of time points (in days)
         beta = np.full((days + 1,), self.beta_0)
@@ -37,11 +46,11 @@ class SIR:
                 elif isinstance(_cp[1], object):
                     beta[_cp[0]:] = _cp[1](time[_cp[0]:])
 
-        # Simulation of differential equaiton using Numerical differentiation
+        # Simulation of differential equation using Numerical differentiation
         # dx/dt = (x[t] - x[t-1])/dt
         # E.g. S[t] = S[t-1] + dt *(B*S*I/N)  dt = 1 # In our simulation dt is 1-day
         for idx, t in enumerate(time):
-            term1 = (beta[idx]/self.N) * S[-1] * I[-1]
+            term1 = (beta[idx]/N) * S[-1] * I[-1]
             term2 = self.gamma * I[-1]
             S.append(S[-1] - term1)
             I.append(I[-1] + term1 - term2)
@@ -50,8 +59,12 @@ class SIR:
         self.I = np.array(I) 
         self.R = np.array(R)
 
-    def plot(self):
-        fig, ax = plt.subplots()
+        #return np.vstack([S, I, R]).T
+        return [S, I, R]
+
+    def plot(self, ax=None, figsize=(10, 7)):
+        if ax is None:
+            fig, ax = plt.subplots(figsize=figsize)
         ax.plot(self.S, label='Susceptible')
         ax.plot(self.I, label='Infected')
         ax.plot(self.R, label='Recovered or Death')

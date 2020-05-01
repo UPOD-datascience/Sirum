@@ -14,13 +14,13 @@ class CovidDataSelection:
 
     def create_data(self):
         data = self._load_cases()
-        data = data.append([self._load_deaths(), self._load_recovered()],
-                         ignore_index=True)
-        data = data.drop(['Lat','Long','Country/Region','Province/State'],axis = 1).T
+        data = data.append([self._load_deaths(), self._load_cases(), self._load_recovered()],
+                         ignore_index = True)
+        data = data.drop(['Lat', 'Long', 'Country/Region', 'Province/State'], axis = 1).T
         data.columns = data.loc['type']
-        data = data.drop('type',axis = 0)
+        data = data.drop('type', axis=0)
         data.index = pd.to_datetime(data.index)
-        data = data.apply(lambda x:x.astype(int))
+        data = data.apply(lambda x: x.astype(int))
         return data
 
     def _load_cases(self):
