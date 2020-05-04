@@ -1,6 +1,12 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import logging
+log = logging.getLogger("SIR_logger")
+
+'''
+ add parameters/coefficient matrix routine
+'''
 
 class SIR:
     def __init__(self, beta_0=None, gamma=None, beta_changepoints=None):
@@ -41,7 +47,7 @@ class SIR:
         N = S[0]+I[0]+R[0]
 
         time = np.linspace(0, days, days + 1) # A grid of time points (in days)
-        beta = np.full((days + 1,), self.beta_0)
+        beta = np.full((days + 1,), beta_0)
 
         #### varying beta
         if self.beta_changepoints is not None:
@@ -54,9 +60,10 @@ class SIR:
         # Simulation of differential equation using Numerical differentiation
         # dx/dt = (x[t] - x[t-1])/dt
         # E.g. S[t] = S[t-1] + dt *(B*S*I/N)  dt = 1 # In our simulation dt is 1-day
+        log.info("Starting SIR with; Beta 0:{}, Gamma:{}, S0:{}, I0:{}, R0:{}, N:{}".format(beta[0], gamma, S[0], I[0], R[0], N))
         for idx, t in enumerate(time):
             term1 = (beta[idx]/N) * S[-1] * I[-1]
-            term2 = self.gamma * I[-1]
+            term2 = gamma * I[-1]
             S.append(S[-1] - term1)
             I.append(I[-1] + term1 - term2)
             R.append(R[-1] + term2)
@@ -64,8 +71,8 @@ class SIR:
         self.I = np.array(I) 
         self.R = np.array(R)
 
-        #return np.vstack([S, I, R]).T
-        return [S, I, R]
+        return np.vstack([S, I, R]).T
+        #return [S, I, R]
 
     def plot(self, ax=None, figsize=(10, 7)):
         if ax is None:
