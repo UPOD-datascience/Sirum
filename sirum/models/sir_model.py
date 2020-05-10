@@ -20,9 +20,19 @@ class SIR:
         self.gamma = gamma
     
     def _ODE(self, y, t, p):
-        ds = -p[0]*y[0]*y[1]
-        di = p[0]*y[0]*y[1] - p[1]*y[1]  
-        dr = p[1]*y[1] 
+        '''
+        p[0] : beta/N
+        p[1] : gamma
+
+        y[0] : S
+        y[1] : I
+        '''
+
+        term1 = p[0]*y[0]*y[1]
+        term2 = p[1]*y[1]
+        ds = -term1
+        di = term1 - term2  
+        dr = term2 
         return [ds, di, dr]
     def solve_ODE(self, Initial_vals, days, beta_0=None, gamma=None):
         """

@@ -17,6 +17,34 @@ class SEIRFS:
         self.sigma = sigma
         self.mu = mu
         self.N = N
+
+    def _ODE(self, y, t, p):
+        '''
+         p[0] beta/n
+         p[1] eta
+         p[2] sigma
+         p[3] gamma
+         p[4] mu
+         
+         y[0] S
+         y[1] E
+         y[2] I
+         y[3] R
+         y[4] F
+        '''
+
+        term1 = p[0]*y[0]*y[2]
+        term2 = p[1]*y[3]
+        term3 = p[2]*y[1]
+        term4 = p[3]*y[2]
+        term5 = p[4]*y[2]
+
+        ds = -term1+term2
+        de = term1 - term3
+        di = -term3-term4+term5
+        dr = term4 - term2
+        df = term5
+        return [ds, de, di, dr, df]
         
     def solve_ODE(self, Initial_val, days):
         """
