@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class SEIRFS:
-    def __init__(self, beta_0, gamma, eta, sigma, mu, N, beta_changepoints=None):
+    def __init__(self, beta_0, gamma, eta, sigma, mu, beta_changepoints=None):
         """
         If mu is 0: SEIRS
         If eta is 0: SEIRF
@@ -16,7 +16,6 @@ class SEIRFS:
         self.eta = eta
         self.sigma = sigma
         self.mu = mu
-        self.N = N
 
     def _ODE(self, y, t, p):
         '''
@@ -56,6 +55,8 @@ class SEIRFS:
         """
         # Initial conditions vector
         S, E, I, R, F = [Initial_val[0]], [Initial_val[1]], [Initial_val[2]], [Initial_val[3]], [Initial_val[4]]
+        N = S[0]+E[0]+I[0]+R[0]-F[0]
+
         # Simulation of differential equaiton using Numerical differentiation
         # dx/dt = (x[t] - x[t-1])/dt
         # E.g. S[t] = S[t-1] + dt *(B*S*I/N)  dt = 1 # In our simulation dt is 1-day
@@ -69,15 +70,15 @@ class SEIRFS:
                 if isinstance(_cp[1], float):
                     beta[_cp[0]:] = _cp[1] * beta[_cp[0] - 1]
                 elif isinstance(_cp[1], object):
-                    beta[_cp[0]:] = _cp[1](time[_cp[0]:])
-
+                    beta[_cp[0]:] = _cp[1](time[_cp[0]:])*beta[_cp[0]-1]
+        self.beta = beta
 
         for idx, t in enumerate(time):
-            term1 = (beta[idx]/self.N) * S[-1] * I[-1]
-            term2 = eta*R[-1]
-            term3 = sigma*E[-1]
-            term4 = gamma*I[-1]
-            term5 = mu*I[-1]
+            term1 = (beta[idx]/N) * S[-1] * I[-1]
+            term2 = self.eta*R[-1]
+            term3 = self.sigma*E[-1]
+            term4 = self.gamma*I[-1]
+            term5 = self.mu*I[-1]
 
             S.append(S[-1] - term1 + term2)
             E.append(E[-1] + term1 - term3)
@@ -90,8 +91,9 @@ class SEIRFS:
         self.R = np.array(R)
         self.F = np.array(F)
 
-    def plot(self):
-        fig, ax = plt.subplots()
+    def plot(self, ax=None):
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(10, 7))
         ax.plot(self.S, label='Susceptible')
         ax.plot(self.E, label='Exposed')
         ax.plot(self.I, label='Infected')
