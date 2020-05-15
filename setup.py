@@ -3,7 +3,8 @@ import setuptools
 
 setup(
     name='Sirum',
-    version='0.0.1',
+    version='0.0.3',
+    editable=True,
     packages=setuptools.find_packages(),
     url='',
     license='',

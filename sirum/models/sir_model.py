@@ -31,8 +31,8 @@ class SIR:
         term1 = p[0]*y[0]*y[1]
         term2 = p[1]*y[1]
         ds = -term1
-        di = term1 - term2  
-        dr = term2 
+        di = term1 - term2
+        dr = term2
         return [ds, di, dr]
     def solve_ODE(self, Initial_vals, days, beta_0=None, gamma=None):
         """
@@ -58,6 +58,7 @@ class SIR:
 
         time = np.linspace(0, days, days + 1) # A grid of time points (in days)
         beta = np.full((days + 1,), beta_0)
+        self.beta = beta 
 
         #### varying beta
         if self.beta_changepoints is not None:
@@ -65,7 +66,7 @@ class SIR:
                 if isinstance(_cp[1], float):
                     beta[_cp[0]:] = _cp[1] * beta[_cp[0] - 1]
                 elif isinstance(_cp[1], object):
-                    beta[_cp[0]:] = _cp[1](time[_cp[0]:])
+                    beta[_cp[0]:] = _cp[1](time[_cp[0]:])*beta[_cp[0]-1]
 
         # Simulation of differential equation using Numerical differentiation
         # dx/dt = (x[t] - x[t-1])/dt
