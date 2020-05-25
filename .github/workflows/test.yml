@@ -24,7 +24,7 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: python3 tests/test_sir_model.py
+      run: python3 sirum/tests/test_sir_model.py
 
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
