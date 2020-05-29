@@ -1,5 +1,7 @@
 # Sirum
 
+![Python package](https://github.com/UPOD-datascience/Sirum/workflows/Python%20package/badge.svg)
+
 Repository to experiment with SIR-like models. The purpose 
 is not to develop new SIR-models but rather to create a thin wrapper around
 existing SIR-implementations to allow for easy experimentation. 
