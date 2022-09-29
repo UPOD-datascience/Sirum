@@ -50,6 +50,7 @@ Good notebooks:
 - [https://www.kaggle.com/super13579/covid-19-global-forecast-seir-visualize](https://www.kaggle.com/super13579/covid-19-global-forecast-seir-visualize)
 - [https://doktormike.gitlab.io/ai-blogga/2020/03/17/covid-19/](https://doktormike.gitlab.io/ai-blogga/2020/03/17/covid-19/)
 - [https://github.com/bsanderse/UQ_COVID](https://github.com/bsanderse/UQ_COVID)
+- [example with PyMC3](https://colab.research.google.com/drive/13Ka-KV4HQMMRpdVYNJ3s_BkXg8ns8TnK#scrollTo=o22Tu93XJFTT)
 
 Literature sources:
 
